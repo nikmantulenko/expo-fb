@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef } from 'react'
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { useIsFocused } from '@react-navigation/native'
 import auth from '@react-native-firebase/auth'
 import useUser from '../lib/useUser'
 import useMessages from '../lib/useMessages'
@@ -10,6 +11,7 @@ import { RootStackParamList } from '../routes'
 function LogInScreen(props: NativeStackScreenProps<RootStackParamList>) {
   const { user } = useUser()
   const messages = useMessages()
+  const isFocused = useIsFocused()
 
   const [email, setEmail] = useState('test@gmail.com')
   const [password, setPassword] = useState('testpassword')
@@ -33,7 +35,7 @@ function LogInScreen(props: NativeStackScreenProps<RootStackParamList>) {
 
   return (
     <View style={styles.container}>
-      {props.navigation.isFocused() && messages.map(message => (
+      {isFocused && messages.map(message => (
         <Notification
           key={message.messageId}
           title={message.notification?.title}
