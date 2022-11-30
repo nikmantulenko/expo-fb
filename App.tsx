@@ -5,6 +5,7 @@ import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messag
 import StartScreen from './screens/StartScreen'
 import LogInScreen from './screens/LogInScreen'
 import EndScreen from './screens/EndScreen'
+import { NotificationProvider } from './components/Notification'
 import { RootStackParamList } from './routes'
 import useUser from './lib/useUser'
 
@@ -49,12 +50,14 @@ export default function App() {
   if (!isReady || !isUserReady) return null
 
   return (
-    <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator initialRouteName={externalRouteName.current || (user ? 'end' : 'home')}>
-        <Stack.Screen name={'home'} options={{ headerShown: false }} component={StartScreen} />
-        <Stack.Screen name={'logIn'} options={{ headerShown: false }} component={LogInScreen} />
-        <Stack.Screen name={'end'} options={{ headerShown: false }} component={EndScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <NotificationProvider>
+      <NavigationContainer ref={navigationRef}>
+        <Stack.Navigator initialRouteName={externalRouteName.current || (user ? 'end' : 'home')}>
+          <Stack.Screen name={'home'} options={{ headerShown: false }} component={StartScreen} />
+          <Stack.Screen name={'logIn'} options={{ headerShown: false }} component={LogInScreen} />
+          <Stack.Screen name={'end'} options={{ headerShown: false }} component={EndScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </NotificationProvider>
   )
 }

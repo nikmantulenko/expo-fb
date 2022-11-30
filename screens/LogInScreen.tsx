@@ -3,10 +3,13 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'reac
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import auth from '@react-native-firebase/auth'
 import useUser from '../lib/useUser'
+import useMessages from '../lib/useMessages'
+import Notification from '../components/Notification'
 import { RootStackParamList } from '../routes'
 
 function LogInScreen(props: NativeStackScreenProps<RootStackParamList>) {
   const { user } = useUser()
+  const messages = useMessages()
 
   const [email, setEmail] = useState('test@gmail.com')
   const [password, setPassword] = useState('testpassword')
@@ -20,16 +23,36 @@ function LogInScreen(props: NativeStackScreenProps<RootStackParamList>) {
       .catch(error => { Alert.alert(error.code, error.message) })
   }, [])
 
+  const handleNotificationPress = useCallback(() => {
+    props.navigation.replace('end')
+  }, [])
+
   const logOut = useCallback(() => {
     auth().signOut()
   }, [])
 
   return (
     <View style={styles.container}>
+      {messages.map(message => (
+        <Notification
+          key={message.messageId}
+          title={message.notification?.title}
+          text={message.notification?.body}
+          onPress={handleNotificationPress}
+        />
+      ))}
+
       {user ? (
         <>
-          <Text>You are logged in with {user.email}!</Text>
-          <Text>Wait for notification.</Text>
+          <View style={styles.textBox}>
+            <Text style={styles.text}>
+              You are logged in with {user.email}!{'\n'}
+              Wait for notification. Usually it takes few seconds.{'\n'}
+              Keep the app open to see in-app notification{'\n'}
+              (it's touchable){'\n'}
+              Or minimize the app to receive native notification
+            </Text>
+          </View>
           <TouchableOpacity onPress={logOut}>
             <Text style={styles.buttonText}>LOG OUT</Text>
           </TouchableOpacity>
@@ -83,6 +106,12 @@ const styles = StyleSheet.create({
     fontSize: 28,
     margin: 10,
   },
+  textBox: {
+    padding: 20,
+  },
+  text: {
+    textAlign: 'center',
+  }
 })
 
 export default LogInScreen
