@@ -11,10 +11,13 @@ class MessageManager {
   constructor(topic: string) {
     this.topic = topic
     messaging().subscribeToTopic(this.topic)
-    messaging().onMessage(message => {
+
+    const addMessage = (message: RemoteMessage) => {
       this.messages.push(message)
       this.setters.forEach(setter => setter([...this.messages]))
-    })
+    }
+    messaging().onMessage(addMessage)
+    messaging().onNotificationOpenedApp(addMessage)
   }
 
   subscribe(setter: Dispatch<RemoteMessage[]>) {

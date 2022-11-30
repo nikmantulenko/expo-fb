@@ -33,7 +33,7 @@ function LogInScreen(props: NativeStackScreenProps<RootStackParamList>) {
 
   return (
     <View style={styles.container}>
-      {messages.map(message => (
+      {props.navigation.isFocused() && messages.map(message => (
         <Notification
           key={message.messageId}
           title={message.notification?.title}
