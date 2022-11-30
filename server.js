@@ -10,11 +10,14 @@ const serviceAccount = require('./serviceAccountKey.json')
 
   // we don't store device token so fallback to topics
   const sendWelcome = async () => {
+    const data = {
+      type: 'end', // route name
+    }
     const notification = {
       title: 'welcome',
       body: 'Welcome to our App!',
     }
-    await admin.messaging().sendToTopic('welcome', { notification })
+    await admin.messaging().sendToTopic('welcome', { data, notification })
     console.log('sending welcome message')
   }
 
