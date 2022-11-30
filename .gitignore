@@ -47,6 +47,7 @@ GoogleService-Info.plist
 ios/expofb/GoogleService-Info.plist
 google-services.json
 android/app/google-services.json
+serviceAccountKey.json
 
 # macOS
 .DS_Store
