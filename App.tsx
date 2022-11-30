@@ -53,9 +53,9 @@ export default function App() {
     <NotificationProvider>
       <NavigationContainer ref={navigationRef}>
         <Stack.Navigator initialRouteName={externalRouteName.current || (user ? 'end' : 'home')}>
-          <Stack.Screen name={'home'} options={{ headerShown: false }} component={StartScreen} />
-          <Stack.Screen name={'logIn'} options={{ headerShown: false }} component={LogInScreen} />
-          <Stack.Screen name={'end'} options={{ headerShown: false }} component={EndScreen} />
+          <Stack.Screen name={'home'} component={StartScreen} />
+          <Stack.Screen name={'logIn'} component={LogInScreen} />
+          <Stack.Screen name={'end'} component={EndScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </NotificationProvider>
